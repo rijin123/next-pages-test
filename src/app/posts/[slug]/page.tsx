@@ -1,4 +1,4 @@
-import { getAllPostSlugs, getPostBySlug } from "@/lib/content";
+import { getAllPostSlugs, getPostBySlugOrNull } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
 
@@ -17,13 +17,8 @@ export default async function PostPage({
 }) {
   const { slug: rawSlug } = await params;
   if (!rawSlug) return notFound();
-  const slug = rawSlug.replace(/\.html$/, "");
-  let post;
-  try {
-    post = getPostBySlug(slug);
-  } catch {
-    return notFound();
-  }
+  const post = getPostBySlugOrNull(rawSlug);
+  if (!post) return notFound();
 
   return (
     <main>

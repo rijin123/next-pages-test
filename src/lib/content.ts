@@ -31,6 +31,12 @@ export function getPostBySlug(slug: string): Post {
   };
 }
 
+export function getPostBySlugOrNull(slug: string): Post | null {
+  const fullPath = path.join(POSTS_DIR, `${slug}.md`);
+  if (!fs.existsSync(fullPath)) return null;
+  return getPostBySlug(slug);
+}
+
 export function getAllPosts(): Post[] {
   return getAllPostSlugs()
     .map(getPostBySlug)
