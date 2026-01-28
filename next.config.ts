@@ -3,8 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
-  basePath: process.env.GITHUB_PAGES ? "/<repo-name>" : "",
-  assetPrefix: process.env.GITHUB_PAGES ? "/<repo-name>/" : "",
+  basePath: process.env.NEXT_PUBLIC_BASE_PATH ?? "",
+  assetPrefix: process.env.NEXT_PUBLIC_BASE_PATH
+    ? `${process.env.NEXT_PUBLIC_BASE_PATH}/`
+    : "",
 };
 
 export default nextConfig;
