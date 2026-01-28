@@ -19,15 +19,3 @@ content:
       - name: body
         label: Body
         type: rich-text
-
-  - name: settings
-    label: Settings
-    type: file
-    path: content/settings.yml
-    fields:
-      - name: site_title
-        label: Site Title
-        type: string
-      - name: description
-        label: Description
-        type: text
