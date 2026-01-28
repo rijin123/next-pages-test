@@ -2,15 +2,28 @@ import { getAllPostSlugs, getPostBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import { marked } from "marked";
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return getAllPostSlugs().map((slug) => ({ slug }));
 }
 
-export default function PostPage({ params }: { params: { slug: string } }) {
-  const slugs = new Set(getAllPostSlugs());
-  if (!slugs.has(params.slug)) return notFound();
+type Params = { slug?: string };
 
-  const post = getPostBySlug(params.slug);
+export default async function PostPage({
+  params,
+}: {
+  params: Params | Promise<Params>;
+}) {
+  const { slug: rawSlug } = await params;
+  if (!rawSlug) return notFound();
+  const slug = rawSlug.replace(/\.html$/, "");
+  let post;
+  try {
+    post = getPostBySlug(slug);
+  } catch {
+    return notFound();
+  }
 
   return (
     <main>
